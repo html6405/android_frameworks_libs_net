@@ -15,7 +15,7 @@
  */
 
 #pragma once
-
+#include <android-base/properties.h>
 #include <linux/if_ether.h>
 #include <linux/pfkeyv2.h>
 #include <net/if.h>
@@ -111,6 +111,10 @@ static inline unsigned uncachedKernelVersion() {
 static inline unsigned kernelVersion() {
     static unsigned kver = uncachedKernelVersion();
     return kver;
+}
+
+inline bool isBpfSupported() {
+    return android::base::GetBoolProperty("ro.kernel.ebpf.supported", true);
 }
 
 static inline bool isAtLeastKernelVersion(unsigned major, unsigned minor, unsigned sub) {
